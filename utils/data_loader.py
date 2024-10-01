@@ -4,8 +4,6 @@ import torch
 import os
 from torch.utils.data import Dataset, DataLoader
 from utils.util import get_coordinate, mean_filter_2d
-from utils.sampling import generate_mask_pair, generate_subimages
-from utils.sampling import generate_subimages
 
 class DataFolder(Dataset):
     def __init__(self, root, patch_size=[61, 128, 128], random_transform=True, random_patch_seed=0):
@@ -74,6 +72,9 @@ class DataFolder(Dataset):
                                           [z_idx, z_idx + self.patch_size[2]]]), mean, std, name
 
 
+"""Referenced by SUPPORT version of datafolder
+https://github.com/cabooster/SUPPORT
+"""
 class DataFolder_test_stitch(Dataset):
     def __init__(self, noisy_image, patch_size=[61, 128, 128], patch_interval=[10, 64, 64], load_to_memory=True, \
                  transform=None, random_patch=False, random_patch_seed=0):
@@ -132,16 +133,7 @@ class DataFolder_test_stitch(Dataset):
         # for stitching dataset range
         noisy_image = self.noisy_image[init_s:end_s, init_h:end_h, init_w:end_w]
 
-        # transform
-        # if self.transform:
-        #     rand_i = self.patch_rng.integers(0, self.transform.n_masks)
-        #     rand_t = self.patch_rng.integers(0, 2)
-        #     noisy_image = self.transform.mask(noisy_image, rand_i, rand_t)
-
         tempGradMap = get_tempGradMap(noisy_image, self.patch_size[0])
-
-        # noisy_image -= self.mean_image
-        # noisy_image /= self.std_image
 
         noisy_image = (noisy_image - self.mean_image) / self.std_image
 
