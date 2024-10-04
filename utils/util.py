@@ -26,7 +26,7 @@ def parse_arguments():
     parser.add_argument("--noisy_data", type=str, nargs="+", help="List of path to the noisy data")
     parser.add_argument("--image_size", type=int, default=[21, 256, 256], nargs="+", help="size of the patches")
     parser.add_argument("--batch_num", type=int, default=7, help="size of the batches")
-    parser.add_argument("--root", type=str, default="/data/leewj/[2023-2024]Fluorescence_denoising/dataset/240422", help="dataset folder")
+    parser.add_argument("--root", type=str, default="/data/trainset", help="dataset folder")
 
     # model
     parser.add_argument("--patch_size", type=int, default=4, nargs="+", help="patch size")
