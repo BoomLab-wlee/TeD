@@ -58,8 +58,8 @@ def validate(test_dataloader, model, device):
 
 if __name__ == '__main__':
     ########## Change it with your data ##############
-    save_name = '240904_SwinIr_6666'
-    save_epoch = 151
+    save_name = utils.save_name
+    save_epoch = utils.n_epochs
 
     model_file = os.path.join("./results/saved_models", save_name, "model_%d.pth" % (save_epoch))
 
@@ -76,6 +76,7 @@ if __name__ == '__main__':
                    out_channels=opt.output_frames,
                    window_size=opt.window_size, depths=opt.rstb_depths,
                    embed_dim=opt.embed_dim,
+                   num_heads=opt.num_heads,
                    attn_drop_rate=opt.attn_drop_rate)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
