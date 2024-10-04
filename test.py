@@ -4,7 +4,7 @@ import skimage.io as skio
 
 from tqdm import tqdm
 from utils.data_loader import DataFolder_test_stitch
-from model.TeD import SwinIR
+from model.TeD import TeD
 from utils.util import parse_arguments, imshow, grad_imshow, np_imshow
 import torch.nn as nn
 import os
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     batch_size = 180  # lower it if memory exceeds.
     ##################################################
 
-    model = SwinIR(img_size=(image_size[1], image_size[2]),
+    model = TeD(img_size=(image_size[1], image_size[2]),
                    patch_size=opt.patch_size,
                    in_channels=opt.input_frames,
                    out_channels=opt.output_frames,
@@ -87,8 +87,8 @@ if __name__ == '__main__':
 
     print('Loaded trained model and optimizer weights of epoch {}'.format(opt.epoch - 1))
 
-    test_path = '/data/leewj/[2023-2024]Fluorescence_denoising/testset'
-    test_folder = '240816_test'
+    test_path = '/data/testset'
+    test_folder = 'test'
 
     file_paths = os.listdir(os.path.join(test_path, test_folder))
     file_paths.sort()
@@ -110,120 +110,6 @@ if __name__ == '__main__':
         T, X, Y = denoised_stack.shape
 
 
-        np_imshow(np.concatenate((demo_tif[int(T/2),:,:].squeeze().detach().cpu(),denoised_stack[int(T / 2), :, :].squeeze()), axis=1))
-
-        save_image = np.clip(denoised_stack[(opt.input_frames - 1) // 2:-(opt.input_frames - 1) // 2, :, :], 0,
-                             255).astype('uint8')
-        skio.imsave(output_file, save_image, metadata={'axes': 'TYX'})
-
-    ########## Change it with your data ##############
-    save_name = '240904_SwinIr_6666'
-    save_epoch = 201
-
-    model_file = os.path.join("./results/saved_models", save_name, "model_%d.pth" % (save_epoch))
-
-    opt = parse_arguments()
-
-    image_size = [21, 128, 128]
-    image_interval = [1, 10, 10]
-    batch_size = 180  # lower it if memory exceeds.
-    ##################################################
-
-    model = SwinIR(img_size=(image_size[1], image_size[2]),
-                   patch_size=opt.patch_size,
-                   in_channels=opt.input_frames,
-                   out_channels=opt.output_frames,
-                   window_size=opt.window_size, depths=opt.rstb_depths,
-                   embed_dim=opt.embed_dim,
-                   attn_drop_rate=opt.attn_drop_rate)
-
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    model = nn.DataParallel(model, device_ids=[0], output_device=0)
-    model.to(device)
-
-    model.load_state_dict(
-        torch.load(model_file, map_location="cuda:0"))
-
-    print('Loaded trained model and optimizer weights of epoch {}'.format(opt.epoch - 1))
-
-    test_path = '/data/leewj/[2023-2024]Fluorescence_denoising/testset'
-    test_folder = '240816_test'
-
-    file_paths = os.listdir(os.path.join(test_path, test_folder))
-    file_paths.sort()
-
-    for i in range(len(file_paths)):
-        data_file = (os.path.join(os.path.join(test_path, test_folder), file_paths[i]))
-        save_folder = os.path.join("./results/images", save_name,
-                                   "Epoch_%d_TestFolder_%s" % (save_epoch, test_folder))
-        os.makedirs(save_folder, exist_ok=True)
-
-        output_file = os.path.join(save_folder, file_paths[i])
-
-        demo_tif = torch.from_numpy(skio.imread(data_file).astype(np.float32)).type(torch.FloatTensor)
-        demo_tif = demo_tif[:, :, :]
-
-        testset = DataFolder_test_stitch(demo_tif, patch_size=image_size, patch_interval=image_interval)
-        testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size)
-        denoised_stack = validate(testloader, model, device)
-        T, X, Y = denoised_stack.shape
-        np_imshow(np.concatenate((demo_tif[int(T/2),:,:].squeeze().detach().cpu(),denoised_stack[int(T / 2), :, :].squeeze()), axis=1))
-
-        save_image = np.clip(denoised_stack[(opt.input_frames - 1) // 2:-(opt.input_frames - 1) // 2, :, :], 0,
-                             255).astype('uint8')
-        skio.imsave(output_file, save_image, metadata={'axes': 'TYX'})
-
-        ########## Change it with your data ##############
-    save_name = '240904_SwinIr_6666'
-    save_epoch = 251
-
-    model_file = os.path.join("./results/saved_models", save_name, "model_%d.pth" % (save_epoch))
-
-    opt = parse_arguments()
-
-    image_size = [21, 128, 128]
-    image_interval = [1, 10, 10]
-    batch_size = 180  # lower it if memory exceeds.
-    ##################################################
-
-    model = SwinIR(img_size=(image_size[1], image_size[2]),
-                   patch_size=opt.patch_size,
-                   in_channels=opt.input_frames,
-                   out_channels=opt.output_frames,
-                   window_size=opt.window_size, depths=opt.rstb_depths,
-                   embed_dim=opt.embed_dim,
-                   attn_drop_rate=opt.attn_drop_rate)
-
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    model = nn.DataParallel(model, device_ids=[0], output_device=0)
-    model.to(device)
-
-    model.load_state_dict(
-        torch.load(model_file, map_location="cuda:0"))
-
-    print('Loaded trained model and optimizer weights of epoch {}'.format(opt.epoch - 1))
-
-    test_path = '/data/leewj/[2023-2024]Fluorescence_denoising/testset'
-    test_folder = '240816_test'
-
-    file_paths = os.listdir(os.path.join(test_path, test_folder))
-    file_paths.sort()
-
-    for i in range(len(file_paths)):
-        data_file = (os.path.join(os.path.join(test_path, test_folder), file_paths[i]))
-        save_folder = os.path.join("./results/images", save_name,
-                                   "Epoch_%d_TestFolder_%s" % (save_epoch, test_folder))
-        os.makedirs(save_folder, exist_ok=True)
-
-        output_file = os.path.join(save_folder, file_paths[i])
-
-        demo_tif = torch.from_numpy(skio.imread(data_file).astype(np.float32)).type(torch.FloatTensor)
-        demo_tif = demo_tif[:, :, :]
-
-        testset = DataFolder_test_stitch(demo_tif, patch_size=image_size, patch_interval=image_interval)
-        testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size)
-        denoised_stack = validate(testloader, model, device)
-        T, X, Y = denoised_stack.shape
         np_imshow(np.concatenate((demo_tif[int(T/2),:,:].squeeze().detach().cpu(),denoised_stack[int(T / 2), :, :].squeeze()), axis=1))
 
         save_image = np.clip(denoised_stack[(opt.input_frames - 1) // 2:-(opt.input_frames - 1) // 2, :, :], 0,
