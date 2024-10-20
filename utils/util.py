@@ -9,6 +9,10 @@ from kornia.filters.kernels import get_binary_kernel2d
 import torch.nn as nn
 import torch.nn.functional as F
 
+"""Referenced by SUPPORT version of utils
+https://github.com/cabooster/SUPPORT
+"""
+
 def parse_arguments():
     parser = argparse.ArgumentParser()
     # experiment
