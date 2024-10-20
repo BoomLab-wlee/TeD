@@ -10,7 +10,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 """Referenced by SUPPORT version of utils
-https://github.com/cabooster/SUPPORT
+https://github.com/NICALab/SUPPORT
 """
 
 def parse_arguments():
