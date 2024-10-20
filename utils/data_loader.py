@@ -73,7 +73,7 @@ class DataFolder(Dataset):
 
 
 """Referenced by SUPPORT version of datafolder
-https://github.com/cabooster/SUPPORT
+https://github.com/NICALab/SUPPORT
 """
 class DataFolder_test_stitch(Dataset):
     def __init__(self, noisy_image, patch_size=[61, 128, 128], patch_interval=[10, 64, 64], load_to_memory=True, \
