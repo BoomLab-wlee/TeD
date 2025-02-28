@@ -628,11 +628,11 @@ class TeD(nn.Module):
 
         return x
 
-    def forward(self, x, tempGradMap):
+    def forward(self, x, rTG):
         H, W = x.shape[2:]
         x = self.check_image_size(x)
 
-        x_ = self.ShallowTemporalFeatureExtraction(x, tempGradMap)
+        x_ = self.ShallowTemporalFeatureExtraction(x, rTG)
         x = self.ShallowFeatureExtraction(x)
         x = x + x_
 
