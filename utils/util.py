@@ -16,7 +16,7 @@ def parse_arguments():
     # experiment
     parser.add_argument("--random_seed", type=int, default=0, help="random seed for rng")
     parser.add_argument("--epoch", type=int, default=0, help="epoch to start training from (need epoch-1 model)")
-    parser.add_argument("--n_epochs", type=int, default=500, help="number of epochs of training")
+    parser.add_argument("--n_epochs", type=int, default=150, help="number of epochs of training")
     parser.add_argument("--save_name", type=str, default="TeD_250121_2pIntraVital", help="name of the experiment")
 
     parser.add_argument("--results_dir", type=str, default="./results", help="root directory to save results")
