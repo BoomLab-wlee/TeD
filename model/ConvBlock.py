@@ -45,8 +45,8 @@ class ShallowTemporalFeatureExtraction(nn.Module):
 
         self.conv5 = SingleConv(self.embed_dim*3, self.embed_dim, self.kernel_size, self.stride, self.padding,1, 'c')
 
-    def forward(self, x, tempGradMap):
-        x = x.mul(self.sigmoid(self.conv1(tempGradMap)))
+    def forward(self, x, rTG):
+        x = x.mul(self.sigmoid(self.conv1(rTG)))
         out = self.conv5(torch.cat([self.conv2(x), self.conv3(x), self.conv4(x)], dim=1))
         return out
 
