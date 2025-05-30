@@ -18,7 +18,7 @@ Fluorescence microscopy has become one of the most widely employed in vivo imagi
 
 ***
 <div align="center">
-<p><strong>Denoising result</strong></p>
+<p><strong>TeD-denoised in vivo vascular imaging</strong></p>
 </div>
 <div align="center">
 <img src = "https://github.com/user-attachments/assets/ef670da3-ffe9-4615-9051-61743b10ddbf">
