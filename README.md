@@ -13,3 +13,5 @@ Fluorescence microscopy has become one of the most widely employed in vivo imagi
 <div align="center">
 <img src = "https://github.com/user-attachments/assets/ef670da3-ffe9-4615-9051-61743b10ddbf">
 </div>
+
+![Image](https://github.com/user-attachments/assets/dcaf0c60-6338-4af2-9688-2e48e04a7e71)
