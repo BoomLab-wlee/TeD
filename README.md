@@ -11,7 +11,7 @@ Fluorescence microscopy has become one of the most widely employed in vivo imagi
 <p><strong>TeD's main principle</strong></p>
 </div>
 <div align="center">
-![Image](https://github.com/user-attachments/assets/10e35451-3708-4b17-b02e-dc42301eef98)
+![Image](https://github.com/user-attachments/assets/1469f081-76ab-46a6-a6d8-7e48184e00f8)
 </div>
 ***
 <div align="center">
